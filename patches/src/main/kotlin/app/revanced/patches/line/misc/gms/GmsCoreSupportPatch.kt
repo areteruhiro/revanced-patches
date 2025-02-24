@@ -8,6 +8,8 @@ import org.jf.dexlib2.iface.instruction.ReferenceInstruction
 import java.security.MessageDigest
 import java.security.cert.CertificateFactory
 import java.util.Base64
+import org.jf.dexlib2.iface.ClassDef
+import org.jf.dexlib2.iface.Method
 
 object LineCertificate {
     // 証明書基本情報

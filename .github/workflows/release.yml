@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew :patches:buildAndroid clean
 
-      - name: Upload JAR artifact
+      - name: Upload rvp artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-artifacts

@@ -32,7 +32,7 @@
       {
         "assets": [
           {
-            "path": "patches/build/libs/*.rvp"  // 修正: rvpファイルのパスを変更
+            "path": "patches/build/libs/*.rvp"
           }
         ],
         "successComment": false

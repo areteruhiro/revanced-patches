@@ -3,7 +3,6 @@ import app.revanced.patcher.fingerprint
 object MainActivityFingerprint : MethodFingerprint(
     className = "Ljp/naver/line/android/activity/main/MainActivity;",
     method = "onCreate",
-    parameters = listOf("Landroid/os/Bundle;")
 )
 
 object SafetyNetClientFingerprint : MethodFingerprint(

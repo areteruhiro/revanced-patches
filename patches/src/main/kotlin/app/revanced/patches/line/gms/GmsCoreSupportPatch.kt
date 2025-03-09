@@ -1,7 +1,6 @@
 package app.revanced.patches.line.gms
 
 import app.revanced.patcher.patch.Option
-import app.revanced.patches.line.misc.extension.extensionPatch
 import app.revanced.patches.shared.misc.gms.gmsCoreSupportPatch
 import app.revanced.patches.line.gms.fingerprints.MainActivityFingerprint
 
@@ -9,11 +8,10 @@ import app.revanced.patches.line.gms.fingerprints.MainActivityFingerprint
 val gmsCoreSupportPatch = gmsCoreSupportPatch(
     fromPackageName = LineConstants.PACKAGE_NAME,
     mainActivityOnCreateFingerprint = MainActivityFingerprint,
-    extensionPatch = extensionPatch,
     gmsCoreSupportResourcePatchFactory = ::lineGmsCoreSupportResourcePatch,
 ) {
     compatibleWith(LineConstants.PACKAGE_NAME)
-    dependsOn(extensionPatch)
+
 }
 
 private fun lineGmsCoreSupportResourcePatch(

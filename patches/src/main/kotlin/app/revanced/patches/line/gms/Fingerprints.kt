@@ -1,10 +1,15 @@
-Fingerprints.kt
-package app.revanced.patches.line.gms
 
-import app.revanced.patcher.fingerprint
+package app.revanced.patches.line.gms.fingerprints
 
-internal val homeActivityOnCreateFingerprint = fingerprint {
-    custom { methodDef, classDef ->
-        methodDef.name == "onCreate" && classDef.endsWith("/HomeActivity;")
-    }
-}
+import app.revanced.patcher.fingerprint.method.impl.MethodFingerprint
+
+object MainActivityFingerprint : MethodFingerprint(
+    className = "Ljp/naver/line/android/activity/main/MainActivity;",
+    method = "onCreate",
+    parameters = listOf("Landroid/os/Bundle;")
+)
+
+object SafetyNetClientFingerprint : MethodFingerprint(
+    className = "Lcom/google/android/gms/safetynet/SafetyNetClient;",
+    method = "attest"
+)

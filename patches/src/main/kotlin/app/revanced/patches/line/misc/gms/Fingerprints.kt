@@ -4,6 +4,6 @@ import app.revanced.patcher.fingerprint
 
 internal val MainActivityFingerprint = fingerprint {
     custom { methodDef, classDef ->
-        methodDef.name == "onCreate" && classDef.type == "Ljp/naver/line/android/activity/main/MainActivity;"
+        methodDef.name == "onCreate" && classDef.type == "/MainActivity;"
     }
 }

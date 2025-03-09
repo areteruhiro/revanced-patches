@@ -1,4 +1,4 @@
-package app.revanced.patches.line.gms
+package app.revanced.patches.line.misc.gms
 import app.revanced.patcher.patch.Option
 import app.revanced.patches.line.misc.extension.extensionPatch
 import app.revanced.patches.shared.misc.gms.gmsCoreSupportPatch

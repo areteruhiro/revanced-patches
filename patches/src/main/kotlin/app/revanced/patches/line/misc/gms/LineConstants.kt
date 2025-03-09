@@ -1,4 +1,4 @@
-package app.revanced.patches.line.gms
+package app.revanced.patches.line..misc.gms
 
 internal object LineConstants {
     const val PACKAGE_NAME = "jp.naver.line.android"

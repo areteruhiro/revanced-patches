@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-artifacts
-          path: patches/build/libs/*.jar  
+          path: patches/build/libs/*.rvp  
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

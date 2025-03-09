@@ -1,4 +1,4 @@
-package app.revanced.patches.googlenews.misc.extension.hooks
+package app.revanced.patches.line.misc.extension.hooks
 
 import app.revanced.patches.shared.misc.extension.extensionHook
 import app.revanced.util.getReference

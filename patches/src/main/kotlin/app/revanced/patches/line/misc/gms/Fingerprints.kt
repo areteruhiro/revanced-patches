@@ -1,4 +1,4 @@
-package app.revanced.patches.line.gms.fingerprints
+package app.revanced.patches.line.misc.gms.fingerprints
 
 import app.revanced.patcher.fingerprint
 

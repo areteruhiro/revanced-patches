@@ -8,7 +8,6 @@ import app.revanced.patches.line.gms.fingerprints.MainActivityFingerprint
 @Suppress("unused")
 val gmsCoreSupportPatch = gmsCoreSupportPatch(
     fromPackageName = LineConstants.PACKAGE_NAME,
-    toPackageName = LineConstants.SPOOFED_PACKAGE,
     mainActivityOnCreateFingerprint = MainActivityFingerprint,
     extensionPatch = extensionPatch,
     gmsCoreSupportResourcePatchFactory = ::lineGmsCoreSupportResourcePatch,
@@ -21,7 +20,6 @@ private fun lineGmsCoreSupportResourcePatch(
     gmsCoreVendorGroupIdOption: Option<String>,
 ) = app.revanced.patches.shared.misc.gms.gmsCoreSupportResourcePatch(
     fromPackageName = LineConstants.PACKAGE_NAME,
-    toPackageName = LineConstants.SPOOFED_PACKAGE,
     spoofedPackageSignature = LineConstants.OFFICIAL_SIGNATURE,
     gmsCoreVendorGroupIdOption = gmsCoreVendorGroupIdOption,
 )

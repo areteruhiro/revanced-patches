@@ -1,4 +1,3 @@
-
 package app.revanced.patches.line.gms.fingerprints
 
 import app.revanced.patcher.fingerprint.method.impl.MethodFingerprint

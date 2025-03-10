@@ -163,8 +163,8 @@ fun transformPrimeMethod(packageName: String) {
         val targetInstruction = instructions.find { 
             it.getReference<StringReference>()?.string == fromPackageName 
         } ?: run {
-  
-        
+            logger.error("Target instruction not found in method: ${this.name}")
+            throw PatchException("Required instruction not found")
         }
 
         val register = (targetInstruction as? OneRegisterInstruction)?.registerA
@@ -175,7 +175,7 @@ fun transformPrimeMethod(packageName: String) {
 
         replaceInstruction(index, "const-string v$register, \"$packageName\"")
     } ?: run {
-  
+        logger.warn("Prime method fingerprint not matched. Skipping...")
     }
 }
 

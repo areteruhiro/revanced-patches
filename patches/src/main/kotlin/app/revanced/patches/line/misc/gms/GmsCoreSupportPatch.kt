@@ -1,7 +1,7 @@
 package app.revanced.patches.line.misc.gms
+
 import app.revanced.patcher.patch.Option
 import app.revanced.patches.line.misc.extension.sharedExtensionPatch
-import app.revanced.patches.shared.misc.gms.gmsCoreSupportPatch
 import app.revanced.patches.line.misc.gms.fingerprints.MainActivityFingerprint
 import app.revanced.patches.shared.castContextFetchFingerprint
 import app.revanced.patches.shared.misc.gms.gmsCoreSupportPatch
@@ -18,12 +18,15 @@ internal object LineConstants {
 val gmsCoreSupportPatch = gmsCoreSupportPatch(
     fromPackageName = LineConstants.PACKAGE_NAME,
     toPackageName = LineConstants.SPOOFED_PACKAGE,
+    primeMethodFingerprint = primeMethodFingerprint,
+    earlyReturnFingerprints = setOf(
+        castContextFetchFingerprint,
+    ),
     mainActivityOnCreateFingerprint = MainActivityFingerprint,
-    sharedExtensionPatch = sharedExtensionPatch,
+    extensionPatch = sharedExtensionPatch,
     gmsCoreSupportResourcePatchFactory = ::lineGmsCoreSupportResourcePatch,
 ) {
     compatibleWith(LineConstants.PACKAGE_NAME)
-    dependsOn(sharedExtensionPatch)
 }
 
 private fun lineGmsCoreSupportResourcePatch(
@@ -31,6 +34,6 @@ private fun lineGmsCoreSupportResourcePatch(
 ) = app.revanced.patches.shared.misc.gms.gmsCoreSupportResourcePatch(
     fromPackageName = LineConstants.PACKAGE_NAME,
     toPackageName = LineConstants.SPOOFED_PACKAGE,
-    spoofedPackageSignature = LineConstants.OFFICIAL_SIGNATURE,
+    spoofedPackageSignature = LineConstants.MICROG_SIGNATURE, // マイクロG用の署名を使用
     gmsCoreVendorGroupIdOption = gmsCoreVendorGroupIdOption,
 )

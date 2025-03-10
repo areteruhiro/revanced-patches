@@ -198,9 +198,6 @@ fun gmsCoreSupportPatch(
         serviceCheckFingerprint.method.returnEarly()
 
         // Google Play Utility is not present in all apps, so we need to check if it's present.
-        if (googlePlayUtilityFingerprint.methodOrNull != null) {
-            googlePlayUtilityFingerprint.method.returnEarly()
-        }
 
         // Verify GmsCore is installed and whitelisted for power optimizations and background usage.
         mainActivityOnCreateFingerprint.method.apply {

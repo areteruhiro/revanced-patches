@@ -158,21 +158,26 @@ fun gmsCoreSupportPatch(
             }
         }
 
-        fun transformPrimeMethod(packageName: String) {
-primeMethodFingerprint?.method?.apply {
-    val targetInstruction = instructions.find { 
-        it.getReference<StringReference>()?.string == fromPackageName 
-    } ?: return@apply
-
-    val register = (targetInstruction as OneRegisterInstruction).registerA
-    val index = instructions.indexOf(targetInstruction)
-    
-    replaceInstruction(index, "const-string v$register, \"$packageName\"")
-} ?: run {
-    logger.error("Prime method fingerprint not found")
-
-    }
+fun transformPrimeMethod(packageName: String) {
+    primeMethodFingerprint?.method?.apply {
+        val targetInstruction = instructions.find { 
+            it.getReference<StringReference>()?.string == fromPackageName 
+        } ?: run {
+  
+        
         }
+
+        val register = (targetInstruction as? OneRegisterInstruction)?.registerA
+            ?: throw PatchException("Invalid register type at instruction $targetInstruction")
+
+        val index = instructions.indexOf(targetInstruction).takeIf { it >= 0 }
+            ?: throw PatchException("Instruction index not found")
+
+        replaceInstruction(index, "const-string v$register, \"$packageName\"")
+    } ?: run {
+  
+    }
+}
 
         // endregion
 

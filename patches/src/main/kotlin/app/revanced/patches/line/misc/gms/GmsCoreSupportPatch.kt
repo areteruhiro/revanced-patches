@@ -19,11 +19,11 @@ val gmsCoreSupportPatch = gmsCoreSupportPatch(
     fromPackageName = LineConstants.PACKAGE_NAME,
     toPackageName = LineConstants.SPOOFED_PACKAGE,
     mainActivityOnCreateFingerprint = MainActivityFingerprint,
-    extensionPatch = extensionPatch,
+    sharedExtensionPatch = sharedExtensionPatch,
     gmsCoreSupportResourcePatchFactory = ::lineGmsCoreSupportResourcePatch,
 ) {
     compatibleWith(LineConstants.PACKAGE_NAME)
-    dependsOn(extensionPatch)
+    dependsOn(sharedExtensionPatch)
 }
 
 private fun lineGmsCoreSupportResourcePatch(

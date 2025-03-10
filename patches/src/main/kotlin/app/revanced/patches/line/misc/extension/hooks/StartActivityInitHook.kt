@@ -5,24 +5,27 @@ import app.revanced.util.getReference
 import app.revanced.util.indexOfFirstInstructionOrThrow
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
+import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
-private var getApplicationContextIndex = -1
-
-internal val startActivityInitHook = extensionHook {
-    custom { methodDef, classDef ->
-           methodDef.name == "onCreate" && classDef.type == "Ljp/naver/line/android/activity/main/MainActivity;"
+internal val startActivityInitHook = extensionHook(
+    customFilter = { methodDef, classDef ->
+        methodDef.name == "onCreate" && classDef.type == "Ljp/naver/line/android/activity/main/MainActivity;"
     }
-}
-
-        getApplicationContextIndex + 2 // Below the move-result-object instruction.
-    },
-    contextRegisterResolver = { method ->
-        val moveResultInstruction = method.implementation!!.instructions.elementAt(getApplicationContextIndex + 1)
-            as OneRegisterInstruction
-        "v${moveResultInstruction.registerA}"
-    },
 ) {
+    hook {
+        val getApplicationContextIndex = method.implementation!!.indexOfFirstInstructionOrThrow {
+            opcode == Opcode.INVOKE_VIRTUAL && ((this as ReferenceInstruction).reference as MethodReference).name == "getApplicationContext"
+        }
+
+        insertIndex = getApplicationContextIndex + 2 // Insert after move-result-object
+
+        contextRegisterResolver = { method ->
+            val moveResultInstruction = method.implementation!!.instructions.elementAt(getApplicationContextIndex + 1) as OneRegisterInstruction
+            "v${moveResultInstruction.registerA}"
+        }
+    }
+
     opcodes(
         Opcode.INVOKE_STATIC,
         Opcode.MOVE_RESULT,
@@ -32,10 +35,7 @@ internal val startActivityInitHook = extensionHook {
         Opcode.INVOKE_VIRTUAL,
         Opcode.IPUT_OBJECT,
         Opcode.IPUT_BOOLEAN,
-        Opcode.INVOKE_VIRTUAL, // Calls startActivity.getApplicationContext().
-        Opcode.MOVE_RESULT_OBJECT,
+        Opcode.INVOKE_VIRTUAL, // Calls startActivity.getApplicationContext()
+        Opcode.MOVE_RESULT_OBJECT
     )
-    custom { methodDef, classDef ->
-       methodDef.name == "onCreate" && classDef.type == "Ljp/naver/line/android/activity/main/MainActivity;"
-    }
 }

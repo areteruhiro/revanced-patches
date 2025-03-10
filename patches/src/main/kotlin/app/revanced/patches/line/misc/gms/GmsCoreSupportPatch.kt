@@ -3,6 +3,9 @@ import app.revanced.patcher.patch.Option
 import app.revanced.patches.line.misc.extension.sharedExtensionPatch
 import app.revanced.patches.shared.misc.gms.gmsCoreSupportPatch
 import app.revanced.patches.line.misc.gms.fingerprints.MainActivityFingerprint
+import app.revanced.patches.shared.castContextFetchFingerprint
+import app.revanced.patches.shared.misc.gms.gmsCoreSupportPatch
+import app.revanced.patches.shared.primeMethodFingerprint
 
 internal object LineConstants {
     const val PACKAGE_NAME = "jp.naver.line.android"

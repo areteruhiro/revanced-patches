@@ -8,12 +8,21 @@ import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 private var getApplicationContextIndex = -1
-internal val startActivityInitHook = extensionHook {
-    custom { methodDef, classDef ->
-           methodDef.name == "onCreate" && classDef.type == "Ljp/naver/line/android/activity/main/MainActivity;"
-    }
-}
-{
+
+internal val startActivityInitHook = extensionHook(
+    insertIndexResolver = { method ->
+        getApplicationContextIndex = method.indexOfFirstInstructionOrThrow {
+            getReference<MethodReference>()?.name == "getApplicationContext"
+        }
+
+        getApplicationContextIndex + 2 // Below the move-result-object instruction.
+    },
+    contextRegisterResolver = { method ->
+        val moveResultInstruction = method.implementation!!.instructions.elementAt(getApplicationContextIndex + 1)
+            as OneRegisterInstruction
+        "v${moveResultInstruction.registerA}"
+    },
+) {
     opcodes(
         Opcode.INVOKE_STATIC,
         Opcode.MOVE_RESULT,

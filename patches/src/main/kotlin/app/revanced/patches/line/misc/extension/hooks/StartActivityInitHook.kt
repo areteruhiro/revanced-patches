@@ -7,13 +7,23 @@ import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
-private var getApplicationContextIndex = -1
+internal val startActivityInitHook = extensionHook(
+    insertIndexResolver = { method ->
+        val getApplicationContextIndex = method.indexOfFirstInstructionOrThrow {
+            getReference<MethodReference>()?.name == "getApplicationContext"
+        }
+        getApplicationContextIndex + 2
+    },
 
-internal val startActivityInitHook = extensionHook {
-    custom { methodDef, classDef ->
-           methodDef.name == "onCreate" && classDef.type == "Ljp/naver/line/android/activity/main/MainActivity;"
+    contextRegisterResolver = { method ->
+        val getApplicationContextIndex = method.indexOfFirstInstructionOrThrow {
+            getReference<MethodReference>()?.name == "getApplicationContext"
+        }
+        val moveResultInstruction = method.implementation!!.instructions.elementAt(getApplicationContextIndex + 1)
+            as OneRegisterInstruction
+        "v${moveResultInstruction.registerA}"
     }
-} {
+) {
     opcodes(
         Opcode.INVOKE_STATIC,
         Opcode.MOVE_RESULT,
@@ -23,10 +33,12 @@ internal val startActivityInitHook = extensionHook {
         Opcode.INVOKE_VIRTUAL,
         Opcode.IPUT_OBJECT,
         Opcode.IPUT_BOOLEAN,
-        Opcode.INVOKE_VIRTUAL, // Calls startActivity.getApplicationContext().
+        Opcode.INVOKE_VIRTUAL,
         Opcode.MOVE_RESULT_OBJECT,
     )
+
     custom { methodDef, classDef ->
-       methodDef.name == "onCreate" && classDef.type == "Ljp/naver/line/android/activity/main/MainActivity;"
+        methodDef.name == "onCreate" && 
+        classDef.type == "Ljp/naver/line/android/activity/main/MainActivity;"
     }
 }

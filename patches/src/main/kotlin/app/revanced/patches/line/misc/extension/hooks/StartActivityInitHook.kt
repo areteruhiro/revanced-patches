@@ -36,6 +36,6 @@ internal val startActivityInitHook = extensionHook(
         Opcode.MOVE_RESULT_OBJECT,
     )
     custom { methodDef, classDef ->
-       methodDef.name == "onCreate" && classDef.type == "Ljp/naver/line/android/activity/main/MainActivity;"
+        methodDef.name == "onCreate" && classDef.endsWith("/StartActivity;")
     }
 }

@@ -159,18 +159,19 @@ fun gmsCoreSupportPatch(
         }
 
         fun transformPrimeMethod(packageName: String) {
-            primeMethodFingerprint!!.method.apply {
-                var register = 2
+primeMethodFingerprint?.method?.apply {
+    val targetInstruction = instructions.find { 
+        it.getReference<StringReference>()?.string == fromPackageName 
+    } ?: return@apply
 
-                val index = instructions.indexOfFirst {
-                    if (it.getReference<StringReference>()?.string != fromPackageName) return@indexOfFirst false
+    val register = (targetInstruction as OneRegisterInstruction).registerA
+    val index = instructions.indexOf(targetInstruction)
+    
+    replaceInstruction(index, "const-string v$register, \"$packageName\"")
+} ?: run {
+    logger.error("Prime method fingerprint not found")
 
-                    register = (it as OneRegisterInstruction).registerA
-                    return@indexOfFirst true
-                }
-
-                replaceInstruction(index, "const-string v$register, \"$packageName\"")
-            }
+    }
         }
 
         // endregion

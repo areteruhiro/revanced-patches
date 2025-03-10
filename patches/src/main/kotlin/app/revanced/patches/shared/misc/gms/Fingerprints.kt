@@ -24,7 +24,8 @@ internal val googlePlayUtilityFingerprint = fingerprint {
 
 internal val serviceCheckFingerprint = fingerprint {
     accessFlags(AccessFlags.PUBLIC, AccessFlags.STATIC)
-    returns("V")
-    parameters("L", "I")
-    strings("Google Play Services not available")
+    returns("V") 
+    parameters("Landroid/content/Intent;", "I") 
+    strings("Google Play Services not available") 
 }
+

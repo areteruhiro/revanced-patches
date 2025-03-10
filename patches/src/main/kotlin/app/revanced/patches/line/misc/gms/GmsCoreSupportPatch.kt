@@ -34,6 +34,6 @@ private fun lineGmsCoreSupportResourcePatch(
 ) = app.revanced.patches.shared.misc.gms.gmsCoreSupportResourcePatch(
     fromPackageName = LineConstants.PACKAGE_NAME,
     toPackageName = LineConstants.SPOOFED_PACKAGE,
-    spoofedPackageSignature = LineConstants.MICROG_SIGNATURE, // マイクロG用の署名を使用
+    spoofedPackageSignature = LineConstants.MICROG_SIGNATURE, 
     gmsCoreVendorGroupIdOption = gmsCoreVendorGroupIdOption,
 )
